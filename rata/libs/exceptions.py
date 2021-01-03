@@ -1,0 +1,2 @@
+class RecordOverlap(Exception):
+    pass
