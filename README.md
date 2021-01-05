@@ -34,6 +34,7 @@ rata requires a file name in a git-versioned folder. It will create a new commit
 git init ~/timerecords
 rata ~/timerecords/projectFoo.txt
 ````
+I would strongly recommend to not keep other files than what rata creates in the repository as it runs `git reset` before committing and may mess with your git stage.
 
 ### Key-bindings
 
