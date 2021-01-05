@@ -144,12 +144,12 @@ class Rata(object):
         if self.current_task:
             self.current_task.stop()
             self.current_task = None
-            self.to_main_screen()  # Will resort
         else:
             tasks = self.taskmanager.tasks[:]
             tasks.sort(key=lambda t: t.most_recent, reverse=True)
             self.current_task = tasks[0]
             tasks[0].start()
+        self.to_main_screen()  # Will resort
 
     def _rename_task(self):
         if not self.taskmanager.tasks:

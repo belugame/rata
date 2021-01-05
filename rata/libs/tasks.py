@@ -59,7 +59,6 @@ class Task(object):
     def start(self):
         self.records.append(Record(self))
         self.write("{}: Start task".format(self.name[:30]))
-        self.button.attr_map = {None: "active task"}
 
     def stop(self):
         for r in self.records:
