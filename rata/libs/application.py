@@ -1,3 +1,4 @@
+import os
 from itertools import cycle
 
 import urwid
@@ -75,9 +76,14 @@ class Rata(object):
     @property
     def title(self):
         """Defines top line shown above the task table."""
-        return "Tasks {} - by {} - Total {} - Today  {}".format(
-                self.file_name, self.sort_order, format_duration(self.taskmanager.total_duration),
-                format_duration(self.taskmanager.todays_duration))
+        total_duration = self.taskmanager.total_duration
+        title = "Tasks {} - by {} - Total {} - Today  {}".format(
+            self.file_name, self.sort_order, format_duration(total_duration),
+            format_duration(self.taskmanager.todays_duration))
+        rate = os.getenv("RATE")
+        if rate:
+            title += " - To bill  {:.2f} €".format(total_duration.total_seconds()/3600 * float(rate))
+        return title
 
     def create_tasks_menu(self):
         """Renders title and bottom line and in the middle a scrollable table of tasks with their duration"""
