@@ -76,13 +76,17 @@ class Rata(object):
     @property
     def title(self):
         """Defines top line shown above the task table."""
-        total_duration = self.taskmanager.total_duration
-        title = "Tasks {} - by {} - Total {} - Today  {}".format(
-            self.file_name, self.sort_order, format_duration(total_duration),
-            format_duration(self.taskmanager.todays_duration))
         rate = os.getenv("RATE")
+        total_duration = self.taskmanager.total_duration
+        todays_duration = self.taskmanager.todays_duration
+        total_earned = ""
+        today_earned = ""
         if rate:
-            title += " - To bill  {:.2f} €".format(total_duration.total_seconds()/3600 * float(rate))
+            total_earned = " | {:.2f} €".format(total_duration.total_seconds()/3600 * float(rate))
+            today_earned = " | {:.2f} €".format(todays_duration.total_seconds()/3600 * float(rate))
+        title = "Tasks {} - sorted by {} - Total {}{} - Today {}{}".format(
+            self.file_name, self.sort_order, format_duration(total_duration), total_earned,
+            format_duration(todays_duration), today_earned)
         return title
 
     def create_tasks_menu(self):
