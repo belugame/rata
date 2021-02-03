@@ -8,7 +8,7 @@ See a demo screencast here: https://asciinema.org/a/uyiaMiwlXnZjSj12N8fTudIrt
 
 ## Screenshot
 
-![alt text](https://user-images.githubusercontent.com/16137830/103478188-1c158300-4dc5-11eb-9c61-d2ad23981745.png)
+![alt text](https://user-images.githubusercontent.com/16137830/106795236-1e842a80-665a-11eb-992c-62ac94f7318d.png)
 
 It suits people who only want to track the name, duration, start and end time of tasks they worked on, e.g. for billing
 a project per hour. A simple to use replacement for emacs org-mode respectively vim-dotoo.
