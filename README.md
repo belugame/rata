@@ -2,6 +2,12 @@
 
 Terminal based time tracker with git versioning running on python 3 and urwid.
 
+## Demo screencast
+
+See a demo screencast here: https://asciinema.org/a/uyiaMiwlXnZjSj12N8fTudIrt
+
+## Screenshot
+
 ![alt text](https://user-images.githubusercontent.com/16137830/103478188-1c158300-4dc5-11eb-9c61-d2ad23981745.png)
 
 It suits people who only want to track the name, duration, start and end time of tasks they worked on, e.g. for billing
