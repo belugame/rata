@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setuptools.setup(
     name="rata",
-    version="0.0.1",
+    version="0.0.2",
     author="belugame",
     author_email="mb@altmuehl.net",
     description="A CLI task time tracker loosely based on org-mode",

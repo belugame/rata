@@ -1,6 +1,9 @@
 # rata: raw time tracker
 
-Terminal based time tracker with git versioning running on python 3 and urwid.
+Painless interactive terminal time tracker with git versioning running on python 3 and urwid.
+
+What I disliked in other terminal time trackers was that I had to use complicated key strokes or type commands to
+start/stop and switch between tasks. I wanted single-key actions, fast switching and typing only for naming tasks.
 
 ## Demo screencast
 
