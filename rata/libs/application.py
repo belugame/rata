@@ -11,9 +11,9 @@ from .widgets import NewTask, TaskButtonWrap, RenameTask
 
 order_modes = cycle(["duration", "most recent", "name"])
 palette = [
-    ('cyan-bg', 'black', 'light cyan'),
-    ('cyan', 'light cyan', ''),
-    ('normal', '', ''),
+    ('active-bg', 'default', 'dark gray'),
+    ('standout-fg', 'standout', 'default'),
+    ('normal', 'default', 'default'),
     ('red', 'dark red', ''),
 ]
 refresh_interval = 1
@@ -23,7 +23,7 @@ help_line = " | ".join(["Enter: start/stop task", "Right: edit", "(n)ew task", "
 
 class Rata(object):
     sort_order = "name"
-    message_box = urwid.AttrMap(urwid.Text(""), "error")
+    message_box = urwid.AttrMap(urwid.Text(""), "red")
     view = "main"
 
     def __init__(self, file_name):
@@ -69,8 +69,10 @@ class Rata(object):
     def set_message(self, message, error=False):
         if error:
             self.message_box.set_attr_map({None: 'red'})
+        elif message:
+            self.message_box.set_attr_map({None: 'standout-fg'})
         else:
-            self.message_box.set_attr_map({None: 'cyan'})
+            self.message_box.set_attr_map({None: 'normal'})
         self.message_box.base_widget.set_text(message)
 
     @property
@@ -96,9 +98,9 @@ class Rata(object):
             button = TaskButtonWrap(task)
             urwid.connect_signal(button.button, "click", self.toggle_recording_task, task)
             if task == self.current_task:
-                button = urwid.AttrMap(button, "cyan")
+                button = urwid.AttrMap(button, "standout-fg")
             else:
-                button = urwid.AttrMap(button, "normal", "cyan-bg")
+                button = urwid.AttrMap(button, "normal", "active-bg")
             task.button = button
             body.append(button)
         body += [urwid.Divider(),
