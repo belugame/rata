@@ -33,7 +33,11 @@ git. So you should always be able to recover your entries.
 
 ## Installation
 
-pip install rata
+`pip install rata`
+
+Or to install the latest master, clone this repo and run this command in the project root folder:
+
+`pip install --upgrade .`
 
 ## Usage
 
