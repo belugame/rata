@@ -56,7 +56,8 @@ def format_record(start, end):
 
 def format_duration(my_timedelta):
     d = my_timedelta.total_seconds()
-    duration = "{:02.0f}:{:02.0f}:{:02.0f}".format(d // 3600, d % 3600 // 60, d % 60)
+    duration = "{:02.0f}:{:02.0f}:{:02.0f} ({:02.1f}h)".format(
+            d // 3600, d % 3600 // 60, d % 60, float(d/3600))
     return duration
 
 
