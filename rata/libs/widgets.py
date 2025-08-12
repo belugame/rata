@@ -98,7 +98,7 @@ class RecordEdit(urwid.Edit):
 
 class RecordButton(urwid.Button):
     def __init__(self, record, application, *args, **kwargs):
-        super().__init__(record.label, *args, **kwargs)
+        super().__init__(record.label_with_duration, *args, **kwargs)
         self.record = record
         self.application = application
 

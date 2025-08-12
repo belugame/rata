@@ -37,7 +37,9 @@ class Record(object):
     def label_with_duration(self):
         end = self.end.strftime(datetime_format) if self.end else "running since {}".format(
                 format_duration(self.duration))
-        return "[{}] -- [{}]".format(self.start.strftime(datetime_format), end)
+        return "[{}] -- [{}] ({})".format(
+            self.start.strftime(datetime_format), end, format_duration(self.duration)
+        )
 
 
 class Task(object):
