@@ -177,3 +177,13 @@ class TaskManager(object):
                 if r.start.date() == today:
                     today_duration += r.duration
         return today_duration
+
+    @property
+    def yesterdays_duration(self):
+        yesterday = (datetime.today() - timedelta(days=1)).date()
+        yesterday_duration = timedelta(seconds=0)
+        for t in self.tasks:
+            for r in t.records:
+                if r.start.date() == yesterday:
+                    yesterday_duration += r.duration
+        return yesterday_duration
