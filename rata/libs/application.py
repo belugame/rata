@@ -82,17 +82,21 @@ class Rata(object):
         total_duration = self.taskmanager.total_duration
         todays_duration = self.taskmanager.todays_duration
         yesterdays_duration = self.taskmanager.yesterdays_duration
+        week_duration = self.taskmanager.week_duration
         total_earned = ""
         today_earned = ""
         yesterday_earned = ""
+        week_earned = ""
         if rate:
             total_earned = " | {:.2f} €".format(total_duration.total_seconds()/3600 * float(rate))
             today_earned = " | {:.2f} €".format(todays_duration.total_seconds()/3600 * float(rate))
             yesterday_earned = " | {:.2f} €".format(yesterdays_duration.total_seconds()/3600 * float(rate))
-        title = "Tasks {} - sorted by {} - Total {}{} - Today {}{} - Yesterday {}{}".format(
+            week_earned = " | {:.2f} €".format(week_duration.total_seconds()/3600 * float(rate))
+        title = "Tasks {} - sorted by {} - Total {}{} - Today {}{} - Yesterday {}{} - Week {}{}".format(
             self.file_name, self.sort_order, format_duration(total_duration), total_earned,
             format_duration(todays_duration), today_earned,
-            format_duration(yesterdays_duration), yesterday_earned)
+            format_duration(yesterdays_duration), yesterday_earned,
+            format_duration(week_duration), week_earned)
         return title
 
     def create_tasks_menu(self):

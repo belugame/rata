@@ -187,3 +187,14 @@ class TaskManager(object):
                 if r.start.date() == yesterday:
                     yesterday_duration += r.duration
         return yesterday_duration
+
+    @property
+    def week_duration(self):
+        today = datetime.today().date()
+        monday = today - timedelta(days=today.weekday())
+        week_duration = timedelta(seconds=0)
+        for t in self.tasks:
+            for r in t.records:
+                if r.start.date() >= monday:
+                    week_duration += r.duration
+        return week_duration
