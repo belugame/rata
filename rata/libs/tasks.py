@@ -198,3 +198,19 @@ class TaskManager(object):
                 if r.start.date() >= monday:
                     week_duration += r.duration
         return week_duration
+
+    def daily_summary(self):
+        """Return a list of (date, duration, task_names) tuples sorted by date descending."""
+        days = {}
+        for t in self.tasks:
+            for r in t.records:
+                day = r.start.date()
+                if day not in days:
+                    days[day] = {"duration": timedelta(seconds=0), "tasks": set()}
+                days[day]["duration"] += r.duration
+                days[day]["tasks"].add(t.name)
+        result = []
+        for day in sorted(days.keys()):
+            task_names = ", ".join(sorted(days[day]["tasks"]))
+            result.append((day, days[day]["duration"], task_names))
+        return result

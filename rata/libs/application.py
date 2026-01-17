@@ -18,7 +18,7 @@ palette = [
 ]
 refresh_interval = 1
 help_line = " | ".join(["Enter: start/stop task", "Right: edit", "(n)ew task", "(s)tart/stop last task", "s(o)rt tasks",
-                        "(r)ename task", "(q)uit"])
+                        "(r)ename task", "(l)og", "(q)uit"])
 
 
 class Rata(object):
@@ -146,6 +146,9 @@ class Rata(object):
             elif key == 'right':  # edit
                 self._edit_task()
                 return
+            elif key == 'l':  # daily log
+                self._daily_log()
+                return
         if key == 'q':  # quit
             self._quit()
             return
@@ -194,6 +197,19 @@ class Rata(object):
         if not self.taskmanager.tasks:
             return
         self.body.original_widget = make_edit_task_screen(self)
+
+    def _daily_log(self):
+        self.view = "log"
+        body = [urwid.Text("Daily Log (Esc to go back)"), urwid.Divider()]
+        for day, duration, task_names in self.taskmanager.daily_summary():
+            line = "{} | {} | {}".format(
+                day.strftime("%Y-%m-%d %a"),
+                format_duration(duration),
+                task_names
+            )
+            body.append(urwid.Text(line))
+        body += [urwid.Divider(), urwid.Text("Press Esc to go back")]
+        self.body.original_widget = urwid.ListBox(urwid.SimpleFocusListWalker(body))
 
     def add_new_task(self, name):
         """Event handler for when a new task name was entered: Adds and starts tracking it."""

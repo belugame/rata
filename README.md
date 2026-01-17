@@ -65,6 +65,7 @@ I would strongly recommend to not keep other files than what rata creates in the
 - r: Rename task under cursor
 - s: Start/Stop current/last track (independant of cursor position)
 - o: Toggle sorting: by name, total task duration, most recently tracked
+- l: Show daily log with duration and tasks per day
 - q: Quit program
 
 #### Edit mode
