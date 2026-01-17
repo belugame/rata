@@ -14,7 +14,7 @@ See a demo screencast here: https://asciinema.org/a/uyiaMiwlXnZjSj12N8fTudIrt
 ![alt text](https://user-images.githubusercontent.com/16137830/106795236-1e842a80-665a-11eb-992c-62ac94f7318d.png)
 
 It suits people who only want to track the name, duration, start and end time of tasks they worked on, e.g. for billing
-a project per hour. A simple to use replacement for emacs org-mode respectively vim-dotoo.
+a project per hour.
 
 It's my first urwid project and there is no test coverage. Use at own risk, though it commits all changes directly to
 git. So you should always be able to recover your entries.
@@ -22,14 +22,14 @@ git. So you should always be able to recover your entries.
 ## Features
 
 - runs in the terminal and adjusts to terminal size
-- track time per task in a single text-based file
+- track time per task in a single JSON file
 - quickly change between, add and rename tasks
 - shows when you started tracking, since when you are tracking and total duration tracked per task
 - edit previous records with check for overlaps
 - keep track of all changes through automatic git commits
-- sort by duration/name/most recently worked on
-- output file loosely based on org-mode, fully text-based. Though please do not try to add something other than time
-  records to the file. Rata won't be able to read it.
+- sort by duration/name/most recently worked on (default: most recent)
+- status line shows total, today, yesterday, and current week hours
+- JSON file format for easy parsing and integration
 
 ## Installation
 
@@ -45,11 +45,11 @@ rata requires a file name in a git-versioned folder. It will create a new commit
 
 ````
 git init ~/timerecords
-rata ~/timerecords/projectFoo.txt
+rata ~/timerecords/projectFoo.json
 
 or if you want to see how much you will have to bill:
 
-RATE=<hourly rate> rata ~/timerecords/projectFoo.txt
+RATE=<hourly rate> rata ~/timerecords/projectFoo.json
 
 ````
 I would strongly recommend to not keep other files than what rata creates in the repository as it runs `git reset` before committing and may mess with your git stage.
@@ -84,15 +84,19 @@ I would strongly recommend to not keep other files than what rata creates in the
 
 ## Sample output file
 
+````json
+{
+  "Client support": [
+    {"start": "2020-12-27 10:22:10", "end": "2020-12-27 11:30:11"},
+    {"start": "2020-12-24 09:30:03", "end": "2020-12-24 10:40:06"}
+  ],
+  "On-site meetings": [
+    {"start": "2020-12-25 15:00:07", "end": "2020-12-25 17:38:10"},
+    {"start": "2020-12-20 13:44:11", "end": "2020-12-20 16:50:14"}
+  ]
+}
 ````
-* Client support
-:LOGBOOK:
-CLOCK: [2020-12-27 10:22:10] -- [2020-12-27 11:30:11]
-CLOCK: [2020-12-24 09:30:03] -- [2020-12-24 10:40:06]
-:END:
-* On-site meetings
-:LOGBOOK:
-CLOCK: [2020-12-20 13:44:11] -- [2020-12-20 16:50:14]
-CLOCK: [2020-12-25 15:00:07] -- [2020-12-25 17:38:10]
 
-````
+## Breaking changes in 1.0.0
+
+The file format changed from org-mode to JSON. Existing org-mode files need to be converted.

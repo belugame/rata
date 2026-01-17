@@ -1,4 +1,5 @@
 from datetime import datetime
+import json
 import os
 import shutil
 import subprocess
@@ -16,42 +17,36 @@ def is_inside_git_dir(file_name):
 def read_file(file_name):
     tasks = {}
     with open(file_name, "r") as input_file:
-        for line in input_file:
-            if line.strip() in (":LOGBOOK:", ":END:"):
-                continue
-            elif line.startswith("*"):
-                task = line.lstrip("* ").rstrip()
-                if task not in tasks:
-                    tasks[task] = []
-            else:
-                assert line.startswith("CLOCK:"), line
-                # CLOCK: [2020-12-11 Fr 10:26]--[2020-12-11 Fr 12:00] => 01:34
-                start, end = parse_line(line)
-                tasks[task].append([start, end])
+        data = json.load(input_file)
+    for task_name, records in data.items():
+        tasks[task_name] = []
+        for record in records:
+            start = datetime.strptime(record["start"], datetime_format)
+            end = datetime.strptime(record["end"], datetime_format) if record["end"] else None
+            tasks[task_name].append([start, end])
     return tasks
 
 
 def write_file(tasks, file_name, message):
     tasks = tasks[:]
     tasks.sort(key=lambda t: t.name.lower())
-    tmp_file = tempfile.NamedTemporaryFile("w+t", delete=False)
+    data = {}
     for t in tasks:
-        tmp_file.write("* {}\n".format(t.name))
-        tmp_file.write(":LOGBOOK:\n")
         records = t.records[:]
         records.sort(key=lambda r: r.start, reverse=True)
-        for start, end in [(r.start, r.end) for r in records]:
-            tmp_file.write("CLOCK: {}\n".format(format_record(start, end)))
-        tmp_file.write(":END:\n")
+        data[t.name] = [
+            {
+                "start": r.start.strftime(datetime_format),
+                "end": r.end.strftime(datetime_format) if r.end else None
+            }
+            for r in records
+        ]
+    tmp_file = tempfile.NamedTemporaryFile("w+t", delete=False)
+    json.dump(data, tmp_file, indent=2)
     tmp_file.close()
     shutil.copyfile(tmp_file.name, file_name)
     git_commit(file_name, message)
     os.unlink(tmp_file.name)
-
-
-def format_record(start, end):
-    end = end.strftime(datetime_format) if end else "running"
-    return "[{}] -- [{}]".format(start.strftime(datetime_format), end)
 
 
 def format_duration(my_timedelta):
@@ -64,8 +59,8 @@ def format_duration(my_timedelta):
 def parse_line(line):
     """
     Parse lines with a start/end timestamp to datetime records.
-    CLOCK: [2020-12-11 Fr 10:26]--[2020-12-11 Fr 12:00] => 01:34
-    or also: [2020-12-11 Fr 10:26]--[2020-12-11 Fr 12:00] => 01:34
+    Format: [2020-12-11 10:26:23] -- [2020-12-11 12:00:00]
+    or: [2020-12-11 10:26:23] -- [running]
     """
     _, start, end = line.split("[")
     start, _ = start.split("]")
