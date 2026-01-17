@@ -9,7 +9,7 @@ from .tasks import TaskManager
 from .widgets import NewTask, TaskButtonWrap, RenameTask
 
 
-order_modes = cycle(["duration", "most recent", "name"])
+order_modes = cycle(["name", "duration", "most recent"])
 palette = [
     ('active-bg', 'default', 'dark gray'),
     ('standout-fg', 'standout', 'default'),
@@ -22,7 +22,7 @@ help_line = " | ".join(["Enter: start/stop task", "Right: edit", "(n)ew task", "
 
 
 class Rata(object):
-    sort_order = "name"
+    sort_order = "most recent"
     message_box = urwid.AttrMap(urwid.Text(""), "red")
     view = "main"
 
