@@ -30,6 +30,7 @@ git. So you should always be able to recover your entries.
 - sort by duration/name/most recently worked on (default: most recent)
 - status line shows total, today, yesterday, and current week hours
 - JSON file format for easy parsing and integration
+- CSV export view for task durations sorted by total time
 
 ## Installation
 
@@ -66,6 +67,7 @@ I would strongly recommend to not keep other files than what rata creates in the
 - s: Start/Stop current/last track (independant of cursor position)
 - o: Toggle sorting: by name, total task duration, most recently tracked
 - l: Show daily log with duration and tasks per day
+- c: Show CSV export with task durations in decimal hours
 - q: Quit program
 
 #### Edit mode

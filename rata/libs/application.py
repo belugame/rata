@@ -18,7 +18,7 @@ palette = [
 ]
 refresh_interval = 1
 help_line = " | ".join(["Enter: start/stop task", "Right: edit", "(n)ew task", "(s)tart/stop last task", "s(o)rt tasks",
-                        "(r)ename task", "(l)og", "(q)uit"])
+                        "(r)ename task", "(l)og", "(c)sv", "(q)uit"])
 
 
 class Rata(object):
@@ -149,6 +149,9 @@ class Rata(object):
             elif key == 'l':  # daily log
                 self._daily_log()
                 return
+            elif key == 'c':  # csv duration summary
+                self._csv_duration()
+                return
         if key == 'q':  # quit
             self._quit()
             return
@@ -207,6 +210,17 @@ class Rata(object):
                 format_duration(duration),
                 task_names
             )
+            body.append(urwid.Text(line))
+        body += [urwid.Divider(), urwid.Text("Press Esc to go back")]
+        self.body.original_widget = urwid.ListBox(urwid.SimpleFocusListWalker(body))
+
+    def _csv_duration(self):
+        self.view = "csv"
+        body = [urwid.Text("CSV Duration Summary (Esc to go back)"), urwid.Divider()]
+        tasks_sorted = sorted(self.taskmanager.tasks, key=lambda t: t.duration, reverse=True)
+        for task in tasks_sorted:
+            hours = task.duration.total_seconds() / 3600
+            line = "'{}';{:.1f}".format(task.name, hours)
             body.append(urwid.Text(line))
         body += [urwid.Divider(), urwid.Text("Press Esc to go back")]
         self.body.original_widget = urwid.ListBox(urwid.SimpleFocusListWalker(body))
